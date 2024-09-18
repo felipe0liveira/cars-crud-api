@@ -46,6 +46,12 @@ To run the project with **Docker** and **Docker Compose**, use the following com
 ```bash
 make up
 
+# To see the container logs use:
+make logs
+
+# Once you want to turn it off use:
+make down
+
 # Alternatively (without Make) you can simply run:
 docker-compose up
 ```
@@ -81,8 +87,8 @@ Example endpoints:
 
 The **Makefile** contains several helpful commands to make development easier:
 
-- **`make up`**: Starts the Docker containers.
-- **`make build`**: Builds the Docker containers.
+- **`make up`**: Starts the Docker containers (detached).
+- **`make build`**: Builds the Docker containers (detached).
 - **`make down`**: Stops and removes the Docker containers and volumes.
 - **`make clean`**: Cleans up Docker containers, volumes, and images.
 - **`make logs`**: Shows logs for the running containers.

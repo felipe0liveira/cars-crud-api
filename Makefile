@@ -3,11 +3,11 @@ DOCKER_COMPOSE_FILE = docker-compose.yml
 
 up:
 	@echo "Bringing up Docker containers..."
-	$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) up
+	$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) up -d
 
 build:
 	@echo "Building and bringing up Docker containers with --build..."
-	$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) up --build
+	$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) up --build -d
 
 down:
 	@echo "Stopping and removing containers and volumes..."
