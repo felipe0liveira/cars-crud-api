@@ -7,7 +7,8 @@ COPY pyproject.toml poetry.lock /app/
 
 RUN pip install poetry
 
-RUN poetry config virtualenvs.create false && poetry install
+RUN poetry config virtualenvs.create false
+RUN poetry install --no-root --with dev
 
 COPY . /app
 

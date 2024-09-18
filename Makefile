@@ -30,6 +30,6 @@ status:
 
 test:
 	@echo "Running tests with pytest..."
-	docker-compose run --rm app pytest
+	docker-compose run --rm app pytest -p no:warnings
 
 .PHONY: up build down clean logs status test
