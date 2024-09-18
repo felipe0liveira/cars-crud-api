@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.schemas import cars as schema
 from app.controllers import cars as controller
 from core.database import get_db
-from app.controllers.exceptions import InvalidCarYearException
+from app.controllers.exceptions import InvalidCarYearException, ExistingCarException
 from uuid import UUID
 
 
@@ -17,11 +17,13 @@ async def create_car(car: schema.CarCreate, db: AsyncSession = Depends(get_db)):
         return await controller.create_car(db, car)
     except InvalidCarYearException as e:
         raise HTTPException(status_code=400, detail=str(e))
+    except ExistingCarException as e:
+        raise HTTPException(status_code=409, detail=str(e))
 
 
 @router.get("/", response_model=list[schema.Car], status_code=status.HTTP_200_OK)
-async def read_cars(skip: int = 0, limit: int = 10, db: AsyncSession = Depends(get_db)):
-    cars = await controller.get_cars(db)
+async def read_cars(make: str = None, model: str = None, year: int = None, db: AsyncSession = Depends(get_db)):
+    cars = await controller.get_cars(db, make=make, model=model, year=year)
     return cars
 
 
@@ -50,3 +52,5 @@ async def update_car(id: UUID, car: schema.CarUpdate, db: AsyncSession = Depends
         return updated_car
     except InvalidCarYearException as e:
         raise HTTPException(status_code=400, detail=str(e))
+    except ExistingCarException as e:
+        raise HTTPException(status_code=409, detail=str(e))
