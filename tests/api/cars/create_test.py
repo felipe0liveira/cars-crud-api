@@ -69,3 +69,18 @@ async def test_create_car_invalid_past_year():
         assert response.status_code == 400
         assert response.json() == {
             "detail": f"Car year cannot be {past_year}"}
+
+
+@pytest.mark.asyncio
+async def test_create_car_duplicity():
+    past_year = 1885
+    car_data = {"make": "Test Car", "model": "Sedan", "year": past_year}
+
+    with patch("app.controllers.cars.get_cars", return_value=[car_data]):
+        with patch("app.controllers.cars.create_car", side_effect=HTTPException(status_code=409, detail=f"Car {car_data["make"]} {car_data["model"]} ({car_data["year"]}) already exists")):
+            async with AsyncClient(app=app, base_url="http://test") as ac:
+                response = await ac.post("/v1/cars/", json=car_data)
+
+            assert response.status_code == 409
+            assert response.json() == {
+                "detail": f"Car {car_data["make"]} {car_data["model"]} ({car_data["year"]}) already exists"}

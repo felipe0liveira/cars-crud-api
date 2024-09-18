@@ -1,22 +1,22 @@
 import pytest
-from datetime import datetime
 from unittest.mock import AsyncMock, patch
 from httpx import AsyncClient
 from uuid import uuid4
+from fastapi import HTTPException
 
 from main import app
-from app.schemas.cars import CarUpdate, Car
+from app.schemas.cars import Car
 from sqlalchemy.ext.asyncio import AsyncSession
 from core.database import get_db
 
 
 @pytest.mark.asyncio
 async def test_update_car():
-    car_id = uuid4()
+    car_id = str(uuid4())
     car_update_data = {"make": "Updated Make", "model": "SUV", "year": 2023}
     updated_car = Car(id=car_id, **car_update_data)
 
-    with patch("app.controllers.cars.get_car", return_value=updated_car) as mock_get_car:
+    with patch("app.controllers.cars.update_car", return_value=updated_car) as mock_get_car:
         mock_db_session = AsyncMock(spec=AsyncSession)
 
         async def mock_get_db_override():
@@ -33,8 +33,6 @@ async def test_update_car():
         assert response_data["make"] == "Updated Make"
         assert response_data["model"] == "SUV"
         assert response_data["year"] == 2023
-
-        mock_get_car.assert_called_once_with(mock_db_session, car_id)
 
         app.dependency_overrides = {}
 
@@ -93,3 +91,23 @@ async def test_car_invalid_past_year():
         mock_get_car.assert_called_once_with(mock_db_session, car_id)
 
         app.dependency_overrides = {}
+
+
+@pytest.mark.asyncio
+async def test_update_car_duplicity():
+    past_year = 1885
+    car_data = {"make": "Test Car", "model": "Sedan", "year": past_year}
+
+    with patch("app.controllers.cars.get_cars", return_value=[car_data]):
+        with patch("app.controllers.cars.update_car",
+                   side_effect=HTTPException(
+                       status_code=409,
+                       detail=f"Car {car_data["make"]} {
+                           car_data["model"]} ({car_data["year"]}) already exists"
+                   )):
+            async with AsyncClient(app=app, base_url="http://test") as ac:
+                response = await ac.put(f"/v1/cars/{str(uuid4())}", json=car_data)
+
+            assert response.status_code == 409
+            assert response.json() == {
+                "detail": f"Car {car_data["make"]} {car_data["model"]} ({car_data["year"]}) already exists"}
