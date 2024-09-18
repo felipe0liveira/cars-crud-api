@@ -1,6 +1,6 @@
 from sqlalchemy.future import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.schemas.cars import CarCreate
+from app.schemas.cars import CarCreate, CarUpdate
 from app.models.cars import Car
 from uuid import UUID
 
@@ -28,3 +28,13 @@ async def delete_car(db: AsyncSession, car_id: int):
         await db.delete(db_car)
         await db.commit()
     return db_car
+
+async def update_car(db: AsyncSession, car_id: UUID, car_update: CarUpdate):
+    db_car = await get_car(db, car_id)
+    if db_car:
+        for key, value in car_update.model_dump().items():
+            setattr(db_car, key, value)
+        await db.commit()
+        await db.refresh(db_car)
+        return db_car
+    return None
