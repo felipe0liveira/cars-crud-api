@@ -2,34 +2,34 @@ DOCKER_COMPOSE = docker-compose
 DOCKER_COMPOSE_FILE = docker-compose.yml
 
 up:
-	@echo "Subindo os containers do Docker..."
+	@echo "Bringing up Docker containers..."
 	$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) up
 
 build:
-	@echo "Construindo e subindo os containers do Docker com --build..."
+	@echo "Building and bringing up Docker containers with --build..."
 	$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) up --build
 
 down:
-	@echo "Parando e removendo containers e volumes..."
+	@echo "Stopping and removing containers and volumes..."
 	$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) down -v
 
 clean:
-	@echo "Removendo containers, volumes e imagens não utilizados..."
+	@echo "Removing unused containers, volumes, and images..."
 	$(DOCKER_COMPOSE) down -v
 	docker system prune -f
 	docker volume prune -f
 	docker network prune -f
 
 logs:
-	@echo "Exibindo logs dos containers..."
+	@echo "Displaying container logs..."
 	$(DOCKER_COMPOSE) logs -f
 
 status:
-	@echo "Verificando o status dos containers..."
+	@echo "Checking container status..."
 	$(DOCKER_COMPOSE) ps
 
 test:
-	@echo "Rodando testes com pytest..."
+	@echo "Running tests with pytest..."
 	docker-compose run --rm app pytest
 
 .PHONY: up build down clean logs status test
