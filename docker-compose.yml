@@ -22,6 +22,8 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./migrations:/migrations
+      # - ./migrations:/docker-entrypoint-initdb.d
     ports:
       - "${POSTGRES_PORT}:${POSTGRES_PORT}"
 

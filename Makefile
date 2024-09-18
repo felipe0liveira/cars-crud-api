@@ -36,4 +36,8 @@ shell:
 	@echo "Opening a shell inside the app container..."
 	$(DOCKER_COMPOSE) exec app sh
 
-.PHONY: up build down clean logs status test shell
+populate:
+	@echo "Populating database with initial data..."
+	$(DOCKER_COMPOSE) exec db psql -U postgres -d car_database -f /migrations/populate.sql
+
+.PHONY: up build down clean logs status test shell populate
