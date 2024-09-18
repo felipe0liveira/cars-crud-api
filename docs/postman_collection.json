@@ -1,0 +1,131 @@
+{
+	"info": {
+		"_postman_id": "e2bccd1c-9585-4342-b115-6781c24fc718",
+		"name": "Cars",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2133693"
+	},
+	"item": [
+		{
+			"name": "Get many",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/v1/cars",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"cars"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create one",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"make\": \"GM\",\n    \"model\": \"Chevette\",\n    \"year\": 1980\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/v1/cars",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"cars"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete one",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/v1/cars/e2090209-a6d3-4485-9c6f-b011b99fe7c7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"cars",
+						"e2090209-a6d3-4485-9c6f-b011b99fe7c7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get one",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/v1/cars/e2090209-a6d3-4485-9c6f-b011b99fe7c7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"cars",
+						"e2090209-a6d3-4485-9c6f-b011b99fe7c7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update one",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"make\": \"Peugeot\",\n        \"model\": \"208\",\n        \"year\": 2018\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/v1/cars/b1a97d47-1e4b-4771-a156-fa65045ab286",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"cars",
+						"b1a97d47-1e4b-4771-a156-fa65045ab286"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
