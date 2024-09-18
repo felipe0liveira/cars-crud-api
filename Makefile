@@ -32,4 +32,8 @@ test:
 	@echo "Running tests with pytest..."
 	docker-compose run --rm app pytest -p no:warnings
 
-.PHONY: up build down clean logs status test
+shell:
+	@echo "Opening a shell inside the app container..."
+	$(DOCKER_COMPOSE) exec app sh
+
+.PHONY: up build down clean logs status test shell

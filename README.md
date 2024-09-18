@@ -99,5 +99,6 @@ The **Makefile** contains several helpful commands to make development easier:
 - **`make clean`**: Cleans up Docker containers, volumes, and images.
 - **`make logs`**: Shows logs for the running containers.
 - **`make status`**: Shows the status of the Docker containers.
+- **`make test`**: Starts running the pytest.
 - **`make shell`**: Opens a shell into the `fastapi-app` container.
 
