@@ -82,6 +82,12 @@ Example endpoints:
 - **GET** `/v1/cars/{id}`: Get a car by ID.
 - **DELETE** `/v1/cars/{id}`: Delete a car by ID.
 
+## Testing the Application
+
+The application contains some integration tests on `tests/`. Feel free to run the tests with the command below:
+```bash
+make tests
+```
 
 ## Makefile Commands
 
